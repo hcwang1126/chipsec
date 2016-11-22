@@ -419,6 +419,14 @@ class Chipset:
                     self.Cfg.CONTROLS[ _name ] = _control.attrib
                     if logger().VERBOSE: logger().log( "    + %-16s: %s" % (_name, _control.attrib) )
 
+            if logger().VERBOSE: logger().log( "[*] loading GPIO registers.." )
+            for _gpios in _cfg.iter('gpios'):
+                for _gpio in _gpios.iter('gpio'):
+                    _name = _gpio.attrib['name']
+                    del _gpio.attrib['name']
+                    self.Cfg.GPIOS[ _name ] = _gpio.attrib
+                    if logger().VERBOSE: logger().log( "    + %-16s: %s" % (_name, _register.attrib) )
+
     #
     # Load chipsec/cfg/<code>.py configuration file for platform <code>
     #

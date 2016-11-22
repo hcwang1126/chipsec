@@ -526,10 +526,55 @@
       <field name="En"        bit="11" size="1"  desc="APIC Global Enable" />
       <field name="APICBase"  bit="12" size="20" desc="APIC Base" />
     </register>
-       
+    
+	<!-- #############################-->
+    <!--                              -->
+    <!-- General Purpose Input Output -->
+    <!--                              -->
+    <!-- #############################-->
+    <register name="GPIO_USE_SEL" type="iobar" bar="GPIOBASE" offset="0x00" size="4" desc="GPIO Use Select">
+    </register>
+	<register name="GP_IO_SEL" type="iobar" bar="GPIOBASE" offset="0x04" size="4" desc="GPIO Input/Output Select">
+    </register>
+	<register name="GP_LVL" type="iobar" bar="GPIOBASE" offset="0x0C" size="4" desc="GPIO Level for Input or Output">
+    </register>
+	<register name="GPO_BLINK" type="iobar" bar="GPIOBASE" offset="0x18" size="4" desc="GPIO Blink Enable">
+    </register>
+	<register name="GP_SER_BLINK" type="iobar" bar="GPIOBASE" offset="0x1C" size="4" desc="GP Serial Blink">
+    </register>
+	<register name="GP_SB_CMDSTS" type="iobar" bar="GPIOBASE" offset="0x20" size="4" desc="GP Serial Blink Command Status">
+    </register>
+	<register name="GP_SB_DATA" type="iobar" bar="GPIOBASE" offset="0x24" size="4" desc="GP Serial Blink Data">
+    </register>
+	<register name="GPI_NMI_EN" type="iobar" bar="GPIOBASE" offset="0x28" size="1" desc="GPI NMI Enable">
+    </register>
+	<register name="GPI_NMI_STS" type="iobar" bar="GPIOBASE" offset="0x2A" size="1" desc="GPI NMI Status">
+    </register>
+	<register name="GPI_INV" type="iobar" bar="GPIOBASE" offset="0x2C" size="4" desc="GPIO Signal Invert">
+    </register>
+	<register name="GPIO_USE_SEL2" type="iobar" bar="GPIOBASE" offset="0x30" size="4" desc="GPIO Use Select 2">
+    </register>
+	<register name="GP_IO_SEL2" type="iobar" bar="GPIOBASE" offset="0x34" size="4" desc="GPIO Input/Output Select 2">
+    </register>
+	<register name="GP_LVL2" type="iobar" bar="GPIOBASE" offset="0x38" size="4" desc="GPIO Level for Input or Output 2">
+    </register>
+	<register name="GPIO_USE_SEL3" type="iobar" bar="GPIOBASE" offset="0x40" size="4" desc="GPIO Use Select 3">
+    </register>
+	<register name="GP_IO_SEL3" type="iobar" bar="GPIOBASE" offset="0x44" size="4" desc="GPIO Input/Output Select 3">
+    </register>
+	<register name="GP_LVL3" type="iobar" bar="GPIOBASE" offset="0x48" size="4" desc="GPIO Level for Input or Output 3">
+    </register>
+	<register name="GPI_INV2" type="iobar" bar="GPIOBASE" offset="0x4C" size="4" desc="GPIO Signal Invert 2">
+    </register>
+	<register name="GP_RST_SEL1" type="iobar" bar="GPIOBASE" offset="0x60" size="4" desc="GPIO Reset Select 1">
+    </register>
+	<register name="GP_RST_SEL2" type="iobar" bar="GPIOBASE" offset="0x64" size="4" desc="GPIO Reset Select 2">
+    </register>
+	<register name="GP_RST_SEL3" type="iobar" bar="GPIOBASE" offset="0x68" size="4" desc="GPIO Reset Select 3">
+    </register>
   </registers>
-
-
+  
+  
   <!-- #################################### -->
   <!--                                      -->
   <!-- 'Controls'                           -->
@@ -553,5 +598,33 @@
     <control name="TSEGLimitLock"          register="PCI0.0.0_BGSM"        field="LOCK"               desc="TSEG Limit Lock"/>
     <control name="Ia32FeatureControlLock" register="IA32_FEATURE_CONTROL" field="LOCK"               desc="Lock IA32 Feature Control"/>
   </controls>
+ 
+  <!-- #############################-->
+  <!--                              -->
+  <!-- General Purpose Input Output -->
+  <!--                              -->
+  <!-- #############################-->
+  <gpios>
+    <gpio name="GPIO_USE_SEL"/>
+	<gpio name="GP_IO_SEL"/>
+	<gpio name="GP_LVL"/>
+	<gpio name="GPO_BLINK"/>
+	<gpio name="GP_SER_BLINK"/>
+	<gpio name="GP_SB_CMDSTS"/>
+	<gpio name="GP_SB_DATA"/>
+	<gpio name="GPI_NMI_EN"/>
+	<gpio name="GPI_NMI_STS"/>
+	<gpio name="GPI_INV"/>
+	<gpio name="GPIO_USE_SEL2"/>
+	<gpio name="GP_IO_SEL2"/>
+	<gpio name="GP_LVL2"/>
+	<gpio name="GPIO_USE_SEL3"/>
+	<gpio name="GP_IO_SEL3"/>
+	<gpio name="GP_LVL3"/>
+	<gpio name="GPI_INV2"/>
+	<gpio name="GP_RST_SEL1"/>
+	<gpio name="GP_RST_SEL2"/>
+	<gpio name="GP_RST_SEL3"/>
+  </gpios>
 
 </configuration>
