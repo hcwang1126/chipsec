@@ -52,6 +52,7 @@ class PCICommand(BaseCommand):
     >>> chipsec_util pci dump 0 0 0
     >>> chipsec_util pci xrom
     >>> chipsec_util pci xrom 3 0 0 0xFEDF0000
+    >>> chipsec_util pci irq
     """
 
     def requires_driver(self):
@@ -116,6 +117,12 @@ class PCICommand(BaseCommand):
             else:
                 print PCICommand.__doc__
                 return
+            
+        if ( 'irq' == op ):
+            self.logger.log( "[CHIPSEC] dump PCI IRQ routing table.." )
+            print self.cs.pci.get_irq_routing_table()
+            self.logger.log( "[CHIPSEC] (pci) time elapsed %.3f" % (time.time()-t) )
+            return
 
         else:
 

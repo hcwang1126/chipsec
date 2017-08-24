@@ -128,7 +128,83 @@ PCI_HDR_XROM_BAR_BASE_MASK = 0xFFFFF000
 
 PCI_HDR_BAR_STEP           = 0x4
 
+#
+# PCI IRQ routing table header
+#
 
+PCI_IRQ_ROUTING_TABLE_HEADER_SIGNATURE  = '$PIR'
+PCI_IRQ_ROUTING_TABLE_HEADER_FMT        = '=4sHHBBHII11sB'
+PCI_IRQ_ROUTING_TABLE_HEADER_SIZE       = struct.calcsize( PCI_IRQ_ROUTING_TABLE_HEADER_FMT ) # 32
+class PCI_IRQ_ROUTING_TABLE_HEADER( namedtuple('PCI_IRQ_ROUTING_TABLE_HEADER',
+                                               'Signature Version TableSize RouterBus RouterDevFun ExclusiveIrqs CompatibleRouter Miniport Reserved Checksum') ):
+    __slots__ = ()
+    def __str__(self):
+        return """
+PCI IRQ routing table header
+-----------------------------------
+Signature           : %s
+Version             : 0x%04X
+TableSize           : 0x%04X
+RouterBus           : 0x%02X
+RouterDevFun        : 0x%02X
+ExclusiveIrqs       : 0x%04X
+CompatibleRouter    : 0x%08X
+Miniport            : 0x%08X
+Reserved            : %s
+Checksum            : 0x%02X 
+""" % ( self.Signature, self.Version, self.TableSize, self.RouterBus, self.RouterDevFun, self.ExclusiveIrqs, self.CompatibleRouter, self.Miniport, self.Reserved, self.Checksum )
+
+#
+# PCI IRQ routing table slot entry
+#
+
+PCI_IRQ_ROUTING_TABLE_SLOT_ENTRY_FMT        = '=BBBHBHBHBHBB'
+PCI_IRQ_ROUTING_TABLE_SLOT_ENTRY_SIZE       = struct.calcsize( PCI_IRQ_ROUTING_TABLE_SLOT_ENTRY_FMT ) # 16
+class PCI_IRQ_ROUTING_TABLE_SLOT_ENTRY( namedtuple('PCI_IRQ_ROUTING_TABLE_SLOT_ENTRY',
+                                                   'Bus Dev LinkIntA IrqBitmapIntA LinkIntB IrqBitmapIntB LinkIntC IrqBitmapIntC LinkIntD IrqBitmapIntD SlotNum Reserved') ):
+    __slots__ = ()
+    def __str__(self):
+        return """
+PCI IRQ routing table slot entry
+-----------------------------------
+Bus             : 0x%02X
+Dev             : 0x%02X
+LinkIntA        : 0x%02X
+IrqBitmapIntA   : 0x%04X
+LinkIntB        : 0x%02X
+IrqBitmapIntB   : 0x%04X
+LinkIntC        : 0x%02X
+IrqBitmapIntC   : 0x%04X
+LinkIntD        : 0x%02X
+IrqBitmapIntD   : 0x%04X
+SlotNum         : 0x%02X
+Reserved        : 0x%02X
+""" % ( self.Bus, self.Dev, self.LinkIntA, self.IrqBitmapIntA, self.LinkIntB, self.IrqBitmapIntB, self.LinkIntC, self.IrqBitmapIntC, self.LinkIntD, self.IrqBitmapIntD, self.SlotNum, self.Reserved )
+
+#
+# PCI IRQ routing table
+#
+
+PCI_IRQ_ROUTING_TABLE_SEARCH_RANGE_START = 0xF0000
+PCI_IRQ_ROUTING_TABLE_SEARCH_RANGE       = 0x10000
+class PCI_IRQ_ROUTING_TABLE:
+    __slots__=()
+    def __init__(self, mem_buffer):
+        self.header = PCI_IRQ_ROUTING_TABLE_HEADER( *struct.unpack_from( PCI_IRQ_ROUTING_TABLE_HEADER_FMT, mem_buffer[0:PCI_IRQ_ROUTING_TABLE_HEADER_SIZE] ) )
+        self.slot_entry = []
+        slot_entry_offset = PCI_IRQ_ROUTING_TABLE_HEADER_SIZE
+        remaining_size = self.header.TableSize - PCI_IRQ_ROUTING_TABLE_HEADER_SIZE
+        while  True:
+            self.slot_entry.append(PCI_IRQ_ROUTING_TABLE_SLOT_ENTRY ( *struct.unpack_from( PCI_IRQ_ROUTING_TABLE_SLOT_ENTRY_FMT, mem_buffer[slot_entry_offset:slot_entry_offset + PCI_IRQ_ROUTING_TABLE_SLOT_ENTRY_SIZE] ) ))
+            slot_entry_offset += PCI_IRQ_ROUTING_TABLE_SLOT_ENTRY_SIZE
+            remaining_size -= PCI_IRQ_ROUTING_TABLE_SLOT_ENTRY_SIZE
+            if remaining_size == 0:
+                break
+    def __str__(self):
+        pci_irq_routing_tab = self.header.__str__()
+        for i in self.slot_entry:
+            pci_irq_routing_tab += i.__str__()
+        return pci_irq_routing_tab
 #
 # Generic/standard PCI Expansion (Option) ROM
 #
@@ -469,3 +545,15 @@ class Pci:
         if (0xFFFF == vid) or (0xFFFF == did):
             return False
         return True
+
+    #
+    # PCI IRQ routing table
+    #
+    def get_irq_routing_table(self):
+        mem_buf = self.cs.mem.read_physical_mem( PCI_IRQ_ROUTING_TABLE_SEARCH_RANGE_START, PCI_IRQ_ROUTING_TABLE_SEARCH_RANGE )
+        offset = mem_buf.find(PCI_IRQ_ROUTING_TABLE_HEADER_SIGNATURE)
+        if offset != -1:
+            return PCI_IRQ_ROUTING_TABLE(mem_buf[offset:])
+        else:
+            return "[pci] can't get PCI IRQ routing table..."
+        
