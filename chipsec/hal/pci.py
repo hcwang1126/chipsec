@@ -130,6 +130,7 @@ PCI_HDR_BAR_STEP           = 0x4
 
 #
 # PCI IRQ routing table header
+# WA: Preset 'Reserved' field to 0 for display string null tail error.
 #
 
 PCI_IRQ_ROUTING_TABLE_HEADER_SIGNATURE  = '$PIR'
@@ -150,9 +151,9 @@ RouterDevFun        : 0x%02X
 ExclusiveIrqs       : 0x%04X
 CompatibleRouter    : 0x%08X
 Miniport            : 0x%08X
-Reserved            : %s
+Reserved            : 0x%022X
 Checksum            : 0x%02X 
-""" % ( self.Signature, self.Version, self.TableSize, self.RouterBus, self.RouterDevFun, self.ExclusiveIrqs, self.CompatibleRouter, self.Miniport, self.Reserved, self.Checksum )
+""" % ( self.Signature, self.Version, self.TableSize, self.RouterBus, self.RouterDevFun, self.ExclusiveIrqs, self.CompatibleRouter, self.Miniport, 0, self.Checksum )
 
 #
 # PCI IRQ routing table slot entry
