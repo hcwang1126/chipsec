@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<configuration>
+<!-- Common xml configuration file
+-->
+<!--
+***********************************************************
+
+                   PRE-RELEASE NOTICE
+
+        This file contains pre-release functionality
+        Please do not distribute this file publicly
+
+***********************************************************
+-->
+
+  <!-- #################################### -->
+  <!--                                      -->
+  <!-- Configuration registers              -->
+  <!--                                      -->
+  <!-- #################################### -->
+  <pci>
+  </pci>
+
+  <mmio>
+  </mmio>
+
+  <io>
+  </io>
+
+  <memory>
+  </memory>
+
+  <registers>
+ 
+    <register name="VR_MISC_CONFIG"    type="msr" msr="0x603" desc="This register is used to define the load characteristics of the Primary power plane.">
+      <field name="IOUT_SLOPE" bit="40" size="10" desc="This is a slope correction for VR dIout readings for positive/negative correction." />
+    </register>
+
+  </registers>
+
+  <controls>
+  </controls>
+  
+</configuration>
