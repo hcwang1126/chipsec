@@ -31,7 +31,13 @@
   </memory>
 
   <registers>
- 
+	<register name="Prefetchers"    type="msr" msr="0x1A4" desc="Miscellaneous Feature Control Register.">
+      <field name="HardwarePrefetcher" bit="0" size="1" desc="Lightly threaded applications and some benchmarks can benefit from having the hardware prefetcher enabled." />
+	  <field name="AdjacentCacheLinePrefetch" bit="1" size="1" desc="Lightly threaded applications and some benchmarks can benefit from having the hardware prefetcher enabled." />
+	  <field name="DCUStreamerPrefetcher" bit="2" size="1" desc="Lightly threaded applications and some benchmarks can benefit from having the hardware prefetcher enabled." />
+	  <field name="DCUIpPrefetcher" bit="3" size="1" desc="DCU IP prefetcher is typically best left enabled for most environments. Some environments may benefit from having it disabled (e.g. Java)." />
+    </register>
+	
     <register name="VR_MISC_CONFIG"    type="msr" msr="0x603" desc="This register is used to define the load characteristics of the Primary power plane.">
       <field name="IOUT_SLOPE" bit="40" size="10" desc="This is a slope correction for VR dIout readings for positive/negative correction." />
     </register>
