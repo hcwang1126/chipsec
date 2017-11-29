@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<configuration platform="SKX" >
+<!-- XML configuration file for Skylake/Purely Server
+-->
+<!--
+***********************************************************
+
+                   PRE-RELEASE NOTICE
+
+        This file contains pre-release functionality
+        Please do not distribute this file publicly
+
+***********************************************************
+-->
+
+  <pci>
+  </pci>
+
+  <mmio>
+  </mmio>
+
+  <io>
+  </io>
+
+  <memory>
+  </memory>
+
+  <registers>
+
+    <register name="MSR_FLEX_RATIO"    type="msr" msr="0x194" desc="The Maximum Nonturbo Ratio">
+      <field name="FLEX_RATIO" bit="8" size="8" desc="Desired Flex Ratio." />
+      <field name="FLEX_EN" bit="16" size="1" desc="Flex Ratio Enabled." />
+      <field name="OC_LOCK" bit="20" size="1" desc="Overclocking Lock." />
+    </register>
+
+    <register name="MSR_TURBO_GROUP_CORE_CNT"    type="msr" msr="0x1AE" desc="Group Size of Active Cores for Turbo Mode Operation (RW)">
+      <field name="GROUP_0" bit="0" size="8" desc="Group 0 Core Count Threshold" />
+      <field name="GROUP_1" bit="8" size="8" desc="Group 1 Core Count Threshold" />
+      <field name="GROUP_2" bit="16" size="8" desc="Group 2 Core Count Threshold" />
+      <field name="GROUP_3" bit="24" size="8" desc="Group 3 Core Count Threshold" />
+      <field name="GROUP_4" bit="32" size="8" desc="Group 4 Core Count Threshold" />
+      <field name="GROUP_5" bit="40" size="8" desc="Group 5 Core Count Threshold" />
+      <field name="GROUP_6" bit="48" size="8" desc="Group 6 Core Count Threshold" />
+      <field name="GROUP_7" bit="56" size="8" desc="Group 7 Core Count Threshold" />
+    </register>
+
+  </registers>
+
+  <controls>
+  </controls>
+  
+</configuration>

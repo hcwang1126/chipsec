@@ -44,6 +44,9 @@ IOUT_SLOPE_DEFAULT = 0x200
 IOUT_SLOPE_OK = 0
 IOUT_SLOPE_WARN = 1
 
+PACKAGE_POWER_LIMIT_OK = 0
+PACKAGE_POWER_LIMIT_FAILED = 1
+
 PREFETCHERS_DISABLED = 0
 PREFETCHERS_ENABLED = 1
 
@@ -118,10 +121,80 @@ class perf(BaseModule):
 
         return res
 
+    def read_and_print_reg ( self, reg_name ):
+        reg_val = self.cs.read_register ( reg_name )
+        self.cs.print_register( reg_name, reg_val )
+        return reg_val
+
+    def check_pkg_power_limit( self, pl1_tdp, pl2_tdp):
+        pkg_power_limit = self.read_and_print_reg( 'MSR_PKG_POWER_LIMIT' )
+        
+        power_unit = 2 ** self.cs.read_register_field( 'MSR_RAPL_POWER_UNIT', 'POWER_UNITS', True )
+        pl1_set_tdp = self.cs.read_register_field( 'MSR_PKG_POWER_LIMIT', 'PL1', False ) / power_unit
+        pl2_set_tdp = self.cs.read_register_field( 'MSR_PKG_POWER_LIMIT', 'PL2', False ) / power_unit
+        
+        result = PACKAGE_POWER_LIMIT_OK
+        if pl1_set_tdp != pl1_tdp:
+            self.logger.log_failed_check( "PL1 is %dW, not assigned to %dW" % (int(pl1_set_tdp), int(pl1_tdp)))
+            result = PACKAGE_POWER_LIMIT_FAILED
+
+        if pl2_set_tdp != pl2_tdp:
+            self.logger.log_failed_check( "PL2 is %dW, not assigned to %dW" % (int(pl2_set_tdp), int(pl2_tdp)))
+            result = PACKAGE_POWER_LIMIT_FAILED
+
+        if result == PACKAGE_POWER_LIMIT_OK:
+            self.logger.log_passed_check( "All package power limit settings are correct." )
+
+        return result
+
+    def check_tdp_cfg( self, pl1_tdp=205, pl2_tdp=240):
+        self.logger.start_test( "TDP settings check" )
+
+        pkg_power_limit_res = self.check_pkg_power_limit(pl1_tdp, pl2_tdp)
+
+        if pkg_power_limit_res != PACKAGE_POWER_LIMIT_OK:
+            res = ModuleResult.FAILED
+        else:
+            res = ModuleResult.PASSED
+            self.logger.log_passed_check( "All registers are set in performance spec." )
+
+        return res
+
+    def dump_turbo_settings( self ):
+        self.read_and_print_reg( 'MSR_TURBO_RATIO_LIMIT' )
+
+        try:
+          self.read_and_print_reg( 'MSR_TURBO_GROUP_CORE_CNT' )
+        except:
+          self.logger.log_warn_check( "MSR_TURBO_GROUP_CORE_CNT is not support.." )
+        
+        return
+
+    def dump_flex_ratio_settings( self ):
+        try:
+          self.read_and_print_reg( 'MSR_FLEX_RATIO' )
+        except:
+          self.logger.log_warn_check( "MSR_FLEX_RATIO is not support.." )
+        
+        return
 
     # --------------------------------------------------------------------------
     # run( module_argv )
     # Required function: run here all tests from this module
     # --------------------------------------------------------------------------
     def run( self, module_argv ):
+        if len(module_argv) > 0:
+            test_mode = module_argv[0].lower()
+            if 'tdp' == test_mode:
+                if len(module_argv) == 3:
+                    pl1_tdp = module_argv[1]
+                    pl2_tdp = module_argv[2]
+                    return self.check_tdp_cfg(pl1_tdp, pl2_tdp)
+
+            if 'turbo' == test_mode:
+                return self.dump_turbo_settings ()
+            
+            if 'flex_ratio' == test_mode:
+                return self.dump_flex_ratio_settings ()
+
         return self.check_perf_cfg()

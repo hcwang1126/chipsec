@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<configuration platform="APL">
+<!-- XML configuration for Apollo Lake / Braswell based SoCs
+-->
+  <!-- #################################### -->
+  <!--                                      -->
+  <!-- Memory Mapped I/O spaces (MMIO BARs) -->
+  <!--                                      -->
+  <!-- #################################### -->
+  <mmio>
+    <bar name="SPIBAR"   bus="0" dev="0x1F" fun="0" reg="0x54" width="4" mask="0xFFFFFE00" size="0x200" enable_bit="1" desc="SPI Controller Register Range"/>
+    <bar name="GTTMMADR" bus="0" dev="0x02" fun="0" reg="0x10" width="8" mask="0x7FF000000" desc="Graphics Translation Table Range"/>
+  </mmio>
+
+  <!-- #################################### -->
+  <!--                                      -->
+  <!-- Configuration registers              -->
+  <!--                                      -->
+  <!-- #################################### -->
+  <registers>
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!-- PCIe Configuration registers -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+    <!-- GFx PCI device registers -->
+    <register name="GGC" type="pcicfg" bus="0" dev="0x2" fun="0" offset="0x50" size="4" desc="GMCH Graphics Control">
+      <field name="GGCLCK"  bit="0" size="1"/>
+    </register>
+    <register name="BDSM" type="pcicfg" bus="0" dev="0x2" fun="0" offset="0x5C" size="4" desc="Base of Data Stolen Memory">
+      <field name="BDSM_LOCK"  bit="0" size="1"/>
+    </register>
+    <register name="BGSM" type="pcicfg" bus="0" dev="0x2" fun="0" offset="0x70" size="4" desc="Base of Graphics Stolen Memory">
+      <field name="BGSM_LOCK"  bit="0" size="1"/>
+    </register>
+    <register name="PAVPC" type="pcicfg" bus="0" dev="0x2" fun="0" offset="0x74" size="4" desc="PAVP Control">
+      <field name="PAVPC_LOCK"  bit="2" size="1"/>
+    </register>
+
+    <!-- Misc PCI registers -->
+    <register name="IADBGCTRL" type="pcicfg" bus="0" dev="0x1A" fun="0" offset="0xB0" desc="Debug Control">
+        <field name="IADBGCTRL_LOCK" bit="30" size="1"/>
+    </register>
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!-- MMIO registers               -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+    <!-- SPI Flash Controller MMIO registers -->
+    <register name="BC" type="mmio" bar="SPIBAR" offset="0xFC" size="4" desc="BIOS Control Register (BCR)">
+      <field name="BIOSWE"  bit="0" size="1" desc="BIOS Write Enable"/>
+      <field name="BLE"     bit="1" size="1" desc="BIOS Lock Enable"/>
+      <field name="SRC"     bit="2" size="2" desc="SPI Read Configuration"/>
+      <field name="SMM_BWP" bit="5" size="1" desc="SMM BIOS Write Protect"/>
+    </register>
+    <register name="LOCK" type="mmio" bar="SPIBAR" offset="0xA4" size="4" desc="Individual lock register">
+      <field name="BMWAG"  bit="0" size="1"/>
+      <field name="BMRAG"  bit="1" size="1"/>
+      <field name="PR0"  bit="2" size="1"/>
+      <field name="PR1"  bit="3" size="1"/>
+      <field name="PR2"  bit="4" size="1"/>
+      <field name="PR3"  bit="5" size="1"/>
+      <field name="SCF"  bit="6" size="1"/>
+      <field name="PREOP"  bit="7" size="1"/>
+      <field name="OPTYPE"  bit="8" size="1"/>
+      <field name="OPMENU"  bit="9" size="1"/>
+    </register>
+    <register name="HSFS" type="mmio" bar="SPIBAR" offset="0x4" size="2" desc="HW sequencing flash status">
+      <field name="FLOCKDN"  bit="15" size="1"/>
+    </register>
+    <register name="FRACC" type="mmio" bar="SPIBAR" offset="0x50" size="4" desc="Flash region access permisions">
+      <field name="BMWAG"  bit="2" size="1"/>
+      <field name="BMRAG"  bit="9" size="1"/>
+    </register>
+    <register name="OPMENU0" type="mmio" bar="SPIBAR" offset="0x98" size="4" desc="Opcode menu configuration 0"/>
+    <register name="OPMENU1" type="mmio" bar="SPIBAR" offset="0x9C" size="4" desc="Opcode menu configuration 1"/>
+    <register name="LVSCC" type="mmio" bar="SPIBAR" offset="0xC4" size="4" desc="Lower vendor specific capabilities">
+      <field name="VCL"  bit="23" size="1"/>
+    </register>
+    <register name="PR0" type="mmio" bar="SPIBAR" offset="0x74" size="4" desc="Protected Range 0">
+      <field name="PRB" bit="0"  size="15"/>
+      <field name="RPE" bit="15" size="1"/>
+      <field name="PRL" bit="16" size="15"/>
+      <field name="WPE" bit="31" size="1"/>
+    </register>
+       
+    <!-- GFx MMIO registers -->
+    <register name="PCBR" type="mmio" bar="GTTMMADR" offset="0x182120" desc="PCBR">
+        <field name="PCBR_LOCK" bit="0" size="1"/>
+    </register>
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!-- CPU MSRs                     -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+    <register name="MSR_POWER_MISC" type="msr" msr="0x120" desc="MISC" />
+    
+  </registers>
+
+</configuration>
