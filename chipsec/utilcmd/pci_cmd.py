@@ -54,7 +54,9 @@ class PCICommand(BaseCommand):
     >>> chipsec_util pci xrom
     >>> chipsec_util pci xrom 3 0 0 0xFEDF0000
     >>> chipsec_util pci cmd
-    >>> chipsec_util pci cmd 1    >>> chipsec_util pci irq    """
+    >>> chipsec_util pci cmd 1
+    >>> chipsec_util pci irq
+    """
 
     def requires_driver(self):
         # No driver required when printing the util documentation
