@@ -22,7 +22,8 @@
 try:
     from chipsec.helper.dal import *
 except ImportError:
-    passfrom chipsec.helper.efi import *
+    pass
+from chipsec.helper.efi import *
 from chipsec.helper.linux import *
 from chipsec.helper.osx import *
 from chipsec.helper.win import *
