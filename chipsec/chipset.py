@@ -85,6 +85,8 @@ CHIPSET_ID_BSW     = 12
 CHIPSET_ID_KBL     = 13
 CHIPSET_ID_CHT     = 14
 CHIPSET_ID_BDX     = 15
+CHIPSET_ID_CFL     = 16
+CHIPSET_ID_APL     = 17
 
 CHIPSET_CODE_COMMON  = 'COMMON'
 CHIPSET_CODE_UNKNOWN = ''
@@ -104,10 +106,12 @@ CHIPSET_CODE_BSW     = 'BSW'
 CHIPSET_CODE_KBL     = 'KBL'
 CHIPSET_CODE_CHT     = 'CHT'
 CHIPSET_CODE_BDX     = 'BDX'
+CHIPSET_CODE_CFL     = 'CFL'
+CHIPSET_CODE_APL     = 'APL'
 
 CHIPSET_FAMILY_XEON  = [CHIPSET_ID_JKT,CHIPSET_ID_IVT,CHIPSET_ID_HSX,CHIPSET_ID_BDX]
-CHIPSET_FAMILY_CORE  = [CHIPSET_ID_SNB,CHIPSET_ID_IVB,CHIPSET_ID_HSW,CHIPSET_ID_BDW,CHIPSET_ID_SKL,CHIPSET_ID_KBL]
-CHIPSET_FAMILY_ATOM  = [CHIPSET_ID_BYT,CHIPSET_ID_AVN,CHIPSET_CODE_BSW,CHIPSET_CODE_CHT]
+CHIPSET_FAMILY_CORE  = [CHIPSET_ID_SNB,CHIPSET_ID_IVB,CHIPSET_ID_HSW,CHIPSET_ID_BDW,CHIPSET_ID_SKL,CHIPSET_ID_KBL,CHIPSET_ID_CFL]
+CHIPSET_FAMILY_ATOM  = [CHIPSET_ID_BYT,CHIPSET_ID_AVN,CHIPSET_ID_BSW,CHIPSET_ID_CHT,CHIPSET_ID_APL]
 CHIPSET_FAMILY_QUARK = [CHIPSET_ID_QRK]
 
 
@@ -157,9 +161,17 @@ Chipset_Dictionary = {
 0x191F : {'name' : 'Skylake',        'id' : CHIPSET_ID_SKL , 'code' : CHIPSET_CODE_SKL,  'longname' : 'Desktop 6th Generation Core Processor Quad Core (Skylake CPU / Sunrise Point PCH)' },
 
 # 7th Generation Core Processor Family (Kabylake)
+0x5900 : {'name' : 'Kabylake',       'id' : CHIPSET_ID_KBL , 'code' : CHIPSET_CODE_KBL,  'longname' : 'Mobile 7th Generation Core Processor (Kabylake H)' },
 0x5904 : {'name' : 'Kabylake',       'id' : CHIPSET_ID_KBL , 'code' : CHIPSET_CODE_KBL,  'longname' : 'Mobile 7th Generation Core Processor (Kabylake U)' },
 0x590C : {'name' : 'Kabylake',       'id' : CHIPSET_ID_KBL , 'code' : CHIPSET_CODE_KBL,  'longname' : 'Mobile 7th Generation Core Processor (Kabylake Y)' },
+0x590F : {'name' : 'Kabylake',       'id' : CHIPSET_ID_KBL , 'code' : CHIPSET_CODE_KBL,  'longname' : 'Desktop 7th Generation Core Processor (Kabylake S)' },
+0x5910 : {'name' : 'Kabylake',       'id' : CHIPSET_ID_KBL , 'code' : CHIPSET_CODE_KBL,  'longname' : 'Mobile 7th Generation Core Processor (Kabylake H)' },
+0x5914 : {'name' : 'Kabylake',       'id' : CHIPSET_ID_KBL , 'code' : CHIPSET_CODE_KBL,  'longname' : 'Mobile 8th Generation Core Processor (Kabylake U-Quad Core)' },
 0x591F : {'name' : 'Kabylake',       'id' : CHIPSET_ID_KBL , 'code' : CHIPSET_CODE_KBL,  'longname' : 'Desktop 7th Generation Core Processor (Kabylake S)' },
+
+# 8th Generation Core Processor Family (Coffeelake)
+0x3E1F : {'name' : 'CoffeeLake',     'id' : CHIPSET_ID_CFL , 'code' : CHIPSET_CODE_CFL,  'longname' : 'Desktop 8th Generation Core Processor (Coffeelake S)' },
+0x3EC2 : {'name' : 'CoffeeLake',     'id' : CHIPSET_ID_CFL , 'code' : CHIPSET_CODE_CFL,  'longname' : 'Desktop 8th Generation Core Processor (Coffeelake S)' },
 
 # Xeon v3 Processor (Haswell Server)
 0x2F00 : {'name' : 'Haswell Server', 'id' : CHIPSET_ID_HSX,  'code' : CHIPSET_CODE_HSX,  'longname' : 'Server 4th Generation Core Processor (Haswell Server CPU / Wellsburg PCH)'},
@@ -172,9 +184,6 @@ Chipset_Dictionary = {
 0x1918 : {'name' : 'Skylake Server', 'id' : CHIPSET_ID_SKL,  'code' : CHIPSET_CODE_SKL,  'longname' : 'Intel Xeon Processor E3 v5 (Skylake CPU / Sunrise Point PCH)'},
 
 # Xeon v6 Processor (Kabylake Server)
-0x5900 : {'name' : 'Kabylake','id' : CHIPSET_ID_KBL , 'code' : CHIPSET_CODE_KBL,  'longname' : 'Intel Xeon Processor E3 v6 (Kabylake CPU)' },
-0x590F : {'name' : 'Kabylake','id' : CHIPSET_ID_KBL , 'code' : CHIPSET_CODE_KBL,  'longname' : 'Intel Xeon Processor E3 v6 (Kabylake CPU)' },
-0x5910 : {'name' : 'Kabylake','id' : CHIPSET_ID_KBL , 'code' : CHIPSET_CODE_KBL,  'longname' : 'Intel Xeon Processor E3 v6 (Kabylake CPU)' },
 0x5918 : {'name' : 'Kabylake','id' : CHIPSET_ID_KBL , 'code' : CHIPSET_CODE_KBL,  'longname' : 'Intel Xeon Processor E3 v6 (Kabylake CPU)' },
 
 #
@@ -203,7 +212,10 @@ Chipset_Dictionary = {
 0x1F0F : {'name' : 'Avoton  ',       'id' : CHIPSET_ID_AVN , 'code' : CHIPSET_CODE_AVN,  'longname' : 'Intel Avoton' },
 
 # Cherry Trail SoC
-0x2280 : {'name' : 'Braswell/Cherry Trail',       'id' : CHIPSET_ID_CHT , 'code' : CHIPSET_CODE_CHT,  'longname' : 'Braswell/Cherry Trail SoC' },
+0x2280 : {'name' : 'Braswell/Cherry Trail', 'id' : CHIPSET_ID_CHT, 'code' : CHIPSET_CODE_CHT,  'longname' : 'Braswell/Cherry Trail SoC' },
+
+# Apollo Lake
+0x5AF0 : {'name' : 'Apollo Lake','id' : CHIPSET_ID_APL , 'code' : CHIPSET_CODE_APL,  'longname' : 'Apollo Lake' },
 
 #
 # Quark based SoC platforms
@@ -247,6 +259,8 @@ class DeviceNotFoundError(RuntimeError):
 class RegisterNotFoundError(RuntimeError):
     pass
 
+class RegisterTypeNotFoundError(RuntimeError):
+    pass
 
 class Chipset:
 
@@ -425,6 +439,10 @@ class Chipset:
                 for _device in _pci.iter('device'):
                     _name = _device.attrib['name']
                     del _device.attrib['name']
+                    if 'undef' in _device.attrib and _name in self.Cfg.CONFIG_PCI:
+                        if logger().VERBOSE: logger().log("    - {:16}: {}".format(_name, _device.attrib['undef']))
+                        self.Cfg.CONFIG_PCI.pop(_name, None)
+                        continue
                     self.Cfg.CONFIG_PCI[ _name ] = _device.attrib
                     if logger().VERBOSE: logger().log( "    + %-16s: %s" % (_name, _device.attrib) )
             if logger().VERBOSE: logger().log( "[*] loading MMIO BARs.." )
@@ -432,6 +450,10 @@ class Chipset:
                 for _bar in _mmio.iter('bar'):
                     _name = _bar.attrib['name']
                     del _bar.attrib['name']
+                    if 'undef' in _bar.attrib and _name in self.Cfg.MMIO_BARS:
+                        if logger().VERBOSE: logger().log("    - {:16}: {}".format(_name, _bar.attrib['undef']))
+                        self.Cfg.MMIO_BARS.pop(_name, None)
+                        continue
                     self.Cfg.MMIO_BARS[ _name ] = _bar.attrib
                     if logger().VERBOSE: logger().log( "    + %-16s: %s" % (_name, _bar.attrib) )
             if logger().VERBOSE: logger().log( "[*] loading I/O BARs.." )
@@ -439,6 +461,10 @@ class Chipset:
                 for _bar in _io.iter('bar'):
                     _name = _bar.attrib['name']
                     del _bar.attrib['name']
+                    if 'undef' in _bar.attrib and _name in self.Cfg.IO_BARS:
+                        if logger().VERBOSE: logger().log("    - {:16}: {}".format(_name, _bar.attrib['undef']))
+                        self.Cfg.IO_BARS.pop(_name, None)
+                        continue
                     self.Cfg.IO_BARS[ _name ] = _bar.attrib
                     if logger().VERBOSE: logger().log( "    + %-16s: %s" % (_name, _bar.attrib) )
             if logger().VERBOSE: logger().log( "[*] loading memory ranges.." )
@@ -446,6 +472,10 @@ class Chipset:
                 for _range in _memory.iter('range'):
                     _name = _range.attrib['name']
                     del _range.attrib['name']
+                    if 'undef' in _range.attrib and _name in self.Cfg.MEMORY_RANGES:
+                        if logger().VERBOSE: logger().log("    - {:16}: {}".format(_name, _range.attrib['undef']))
+                        self.Cfg.MEMORY_RANGES.pop(_name, None)
+                        continue
                     self.Cfg.MEMORY_RANGES[ _name ] = _range.attrib
                     if logger().VERBOSE: logger().log( "    + %-16s: %s" % (_name, _range.attrib) )
             if logger().VERBOSE: logger().log( "[*] loading configuration registers.." )
@@ -453,6 +483,10 @@ class Chipset:
                 for _register in _registers.iter('register'):
                     _name = _register.attrib['name']
                     del _register.attrib['name']
+                    if 'undef' in _register.attrib and _name in self.Cfg.REGISTERS:
+                        if logger().VERBOSE: logger().log("    - {:16}: {}".format(_name, _register.attrib['undef']))
+                        self.Cfg.REGISTERS.pop(_name, None)
+                        continue
                     if 'size' not in _register.attrib: _register.attrib['size'] = "0x4"
                     if 'desc' not in _register.attrib: _register.attrib['desc'] = ''
                     reg_fields = {}
@@ -470,6 +504,10 @@ class Chipset:
                 for _control in _controls.iter('control'):
                     _name = _control.attrib['name']
                     del _control.attrib['name']
+                    if 'undef' in _control.attrib and _name in self.Cfg.CONTROLS:
+                        if logger().VERBOSE: logger().log("    - {:16}: {}".format(_name, _control.attrib['undef']))
+                        self.Cfg.CONTROLS.pop(_name, None)
+                        continue
                     self.Cfg.CONTROLS[ _name ] = _control.attrib
                     if logger().VERBOSE: logger().log( "    + %-16s: %s" % (_name, _control.attrib) )
 
@@ -585,6 +623,8 @@ class Chipset:
             reg_value = self.msgbus.msgbus_reg_read( int(reg['port'],16), int(reg['offset'],16) )
         elif RegisterType.MM_MSGBUS == rtype:
             reg_value = self.msgbus.mm_msgbus_reg_read(int(reg['port'],16), int(reg['offset'],16))
+        else:
+            raise RegisterTypeNotFoundError("Register type not found: {}".format(rtype))
 
         return reg_value
 
@@ -621,6 +661,8 @@ class Chipset:
             self.msgbus.msgbus_reg_write( int(reg['port'],16), int(reg['offset'],16), reg_value ) 
         elif RegisterType.MM_MSGBUS == rtype:
             self.msgbus.mm_msgbus_reg_write(int(reg['port'],16), int(reg['offset'],16), reg_value)
+        else:
+            raise RegisterTypeNotFoundError("Register type not found: {}".format(rtype))
 
     def read_register_dict( self, reg_name):
         reg_value = self.read_register(reg_name)

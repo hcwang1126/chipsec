@@ -3,6 +3,8 @@
 // Authors: Thiebaud Weksteen (tweksteen@gmail.com)
 //   (pmem) Johannes Stüttgen (johannes.stuettgen@gmail.com)
 //
+// Copyright (c) 2010-2015, Intel Corporation
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -29,6 +31,27 @@
 #include <sys/conf.h>
 // IOKit memory interface
 #include <IOKit/IOMemoryDescriptor.h>
+#include <IOKit/IOLib.h>
+
+//
+// SoC IOSF Message Bus constants
+//
+#define MSGBUS_BUS 0x0
+#define MSGBUS_DEV 0x0
+#define MSGBUS_FUN 0x0
+
+#define MCR        0xD0
+#define MDR        0xD4
+#define MCRX       0xD8
+
+#define MSGBUS_MDR_IN_MASK  0x1
+#define MSGBUS_MDR_OUT_MASK 0x2
+
+typedef enum{
+    CPU_DT_CODE_IDTR = 0x0,
+    CPU_DT_CODE_GDTR = 0x1,
+    CPU_DT_CODE_LDTR = 0x2,
+} DTR_CODE;
 
 // Read as many bytes as requested in uio->resid (starting from uio->offset)
 // and copy them to the userspace buffer in the uio.

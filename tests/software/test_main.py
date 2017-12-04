@@ -1,6 +1,6 @@
 #!/usr/bin/python
-#CHIPSEC: Platform Security Assessment Framework
-#Copyright (c) 2010-2016, Intel Corporation
+# CHIPSEC: Platform Security Assessment Framework
+# Copyright (c) 2017, Google
 #
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
@@ -15,16 +15,18 @@
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-#Contact information:
-#chipsec@intel.com
 #
 
-try:
-    from chipsec.helper.dal import *
-except ImportError:
-    passfrom chipsec.helper.efi import *
-from chipsec.helper.linux import *
-from chipsec.helper.osx import *
-from chipsec.helper.win import *
-from chipsec.helper.rwe import *
+import unittest
+
+import chipsec_main
+
+class TestChipsecMain(unittest.TestCase):
+    """Test the main entry point script."""
+
+    def test_help(self):
+        """Run chipsec_main --help"""
+        # Basic test. This should run without loading the driver.
+        m = chipsec_main.ChipsecMain(["--help"])
+        self.assertEqual(chipsec_main.ExitCode.OK, m.main())
 
