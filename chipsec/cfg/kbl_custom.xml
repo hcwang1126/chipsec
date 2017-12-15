@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<configuration platform="KBL">
+<!-- XML configuration file for Skylake based platforms
+
+* 7th Generation Intel(R) Processor Families for U/Y-Platforms
+
+* 7th Generation Intel(R) Processor Families I/O for U/Y-Platforms
+
+* http://www.intel.com/content/www/us/en/processors/core/core-technical-resources.html
+
+-->
+
+  <!-- #################################### -->
+  <!--                                      -->
+  <!-- Memory Mapped I/O spaces (MMIO BARs) -->
+  <!--                                      -->
+  <!-- #################################### -->
+
+  <!-- #################################### -->
+  <!--                                      -->
+  <!-- Configuration registers              -->
+  <!--                                      -->
+  <!-- #################################### -->
+  <registers>
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!-- PCIe Configuration registers -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!-- MMIO registers               -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+    <!-- DCI registers -->
+    <register name="ECTRL" type="mm_msgbus" port="0xB8" offset="0x0004" size="4" desc="DCI Control Register">
+      <field name="LOCK" bit="0" size="1"/>
+      <field name="ENABLE" bit="4" size="1"/>
+      <field name="AVAILABLE" bit="8" size="1"/>
+    </register>
+  </registers>
+</configuration>
+

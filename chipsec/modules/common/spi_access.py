@@ -1,3 +1,14 @@
+#!/usr/bin/env python
+#
+# *********************************************************
+# 
+#                   PRE-RELEASE NOTICE
+#
+#        This file contains pre-release functionality
+#        Please do not distribute this file publicly
+#
+# *********************************************************
+#
 #CHIPSEC: Platform Security Assessment Framework
 #Copyright (c) 2010-2017, Intel Corporation
 # 
