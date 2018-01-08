@@ -189,7 +189,7 @@ class DALHelper(Helper):
                 struct.pack_into(format[width], out_buf, ptr, v.ToUInt64())
                 ptr += width
             width = width / 2
-        return out_buf
+        return ''.join(out_buf)
 
     def write_physical_mem( self, phys_address, length, buf, bytewise=False ):
         # write memory in largest chunks possible unless bytewise is set
