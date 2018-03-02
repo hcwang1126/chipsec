@@ -136,6 +136,8 @@ class rowhammer(BaseModule):
             self.logger.log_skipped_check( "SMBus Controller is enabled but not recognized" )
             return ModuleResult.SKIPPED
 
+        self.smbus.enable_SMBus_host_controller()
+
         _dimms = self.spd.detect()
         self.logger.log( "[*] Found %d DIMM(s) with SPD EEPROM" % len(_dimms))
         if 0 == len(_dimms):

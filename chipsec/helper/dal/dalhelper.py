@@ -58,7 +58,7 @@ class DALHelper(Helper):
         if logger().VERBOSE:
             logger().log("[helper] DAL Helper")
         if not len(self.base.threads):
-            logger().log("[helper] No threads detected!  DAL Helper will fail to load!")            
+            logger().log("[helper] No threads detected!  DAL Helper will fail to load!")
         elif self.base.threads[self.find_thread()].cv.isrunning:
             self.base.halt()
         self.os_system  = "(Via Intel DAL)"
@@ -288,7 +288,7 @@ class DALHelper(Helper):
         reax = self.base.threads[ie_thread].cpuid_eax(eax,ecx)
         rebx = self.base.threads[ie_thread].cpuid_ebx(eax,ecx)
         recx = self.base.threads[ie_thread].cpuid_ecx(eax,ecx)
-        redx = self.base.threads[ie_thread].cpuid_edx(eax,ecx)        
+        redx = self.base.threads[ie_thread].cpuid_edx(eax,ecx)
         return (reax, rebx, recx, redx)
         
     #
@@ -336,7 +336,7 @@ class DALHelper(Helper):
     def read_mmio_reg(self, phys_address, size):
         out_buf = self.read_physical_mem( phys_address, size )
         if size == 8:
-            value = struct.unpack( '=L', out_buf[:size] )[0]
+            value = struct.unpack( '=Q', out_buf[:size] )[0]
         elif size == 4:
             value = struct.unpack( '=I', out_buf[:size] )[0]
         elif size == 2:
@@ -347,9 +347,17 @@ class DALHelper(Helper):
         return value
 
     def write_mmio_reg(self, phys_address, size, value):
-        logger().error( "[DAL] API write_mmio_reg() is not supported yet" )
-        return None
-        
+        if size == 8:
+            buf = struct.pack( '=Q', value )
+        elif size == 4:
+            buf = struct.pack( '=I', value&0xFFFFFFFF )
+        elif size == 2:
+            buf = struct.pack( '=H', value&0xFFFF )
+        elif size == 1:
+            buf = struct.pack( '=B', value&0xFF )
+        else: buf = 0
+        self.write_physical_mem( phys_address, size, buf )
+
 def get_helper():
     return DALHelper()
 

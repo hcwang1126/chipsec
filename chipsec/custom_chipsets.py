@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #
 # *********************************************************
-# 
+#
 #                   PRE-RELEASE NOTICE
 #
 #        This file contains pre-release functionality
@@ -11,7 +11,7 @@
 #
 #CHIPSEC: Platform Security Assessment Framework
 #Copyright (c) 2010-2017, Intel Corporation
-# 
+#
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
 #as published by the Free Software Foundation; Version 2.
@@ -48,16 +48,15 @@ CHIPSET_ID_WSM  = 1000 + 7
 CHIPSET_ID_SKX  = 1000 + 12
 CHIPSET_ID_KNL  = 1000 + 13
 
-CHIPSET_ID_APL  = 2000 + 2
-
+CHIPSET_ID_DNV  = 2000 + 3
+CHIPSET_ID_GLK  = 2000 + 4
 
 chipset.CHIPSET_FAMILY_XEON.extend([CHIPSET_ID_TBG,CHIPSET_ID_SKX,CHIPSET_ID_KNL])
 chipset.CHIPSET_FAMILY_CORE.extend([CHIPSET_ID_LFD,CHIPSET_ID_WSM])
-chipset.CHIPSET_FAMILY_ATOM.extend([CHIPSET_ID_APL])
+chipset.CHIPSET_FAMILY_ATOM.extend([CHIPSET_ID_DNV,CHIPSET_ID_GLK])
 chipset.CHIPSET_FAMILY_QUARK.extend([])
 
-
-my_dict = {
+custom_proc_dict = {
 
 # 3 Series Desktop Chipset (Broadwater and Bearlake) = 29xx
 0x2970 : {'name' : 'Bearlake',       'id' : CHIPSET_ID_BLK , 'code' : 'BLK',  'longname' : 'BearLake MCH / ICH9' },
@@ -142,11 +141,15 @@ my_dict = {
 # Broadwell
 0x1608 : {'name' : 'Broadwell',      'id' : chipset.CHIPSET_ID_BDW , 'code' : 'BDW',  'longname' : 'Intel Xeon Processor E3 (Broadwell CPU)' },
 
-# Kabylake
-0x5914 : {'name' : 'Kabylake',       'id' : chipset.CHIPSET_ID_KBL , 'code' : chipset.CHIPSET_CODE_KBL,  'longname' : 'Desktop 7th Generation Core Processor (Kabylake)' },
+# Skylake Server
+0x2020 : {'name' : 'Skylake',        'id' : CHIPSET_ID_SKX , 'code' : 'SKX',  'longname' : 'Intel Xeon Processor E5/E7 v5 (Skylake CPU)' },
 
-# Skylake Server 
-0x2020 : {'name' : 'Skylake',        'id' : CHIPSET_ID_SKX , 'code' : 'SKX',  'longname' : 'Intel Xeon Processor E5 v5 (Skylake CPU)' },
+# Coffee Lake
+0x3ED0 : {'name' : 'CoffeeLake','id' : chipset.CHIPSET_ID_CFL , 'code' : 'CFL',  'longname' : 'CoffeeLake U' },
+0x3E10 : {'name' : 'CoffeeLake','id' : chipset.CHIPSET_ID_CFL , 'code' : 'CFL',  'longname' : 'CoffeeLake H (4 Cores)' },
+0x3EC4 : {'name' : 'CoffeeLake','id' : chipset.CHIPSET_ID_CFL , 'code' : 'CFL',  'longname' : 'CoffeeLake H (6 Cores)' },
+0x3E18 : {'name' : 'CoffeeLake','id' : chipset.CHIPSET_ID_CFL , 'code' : 'CFL',  'longname' : 'CoffeeLake Workstation (4 Cores)' },
+0x3EC6 : {'name' : 'CoffeeLake','id' : chipset.CHIPSET_ID_CFL , 'code' : 'CFL',  'longname' : 'CoffeeLake Workstation (6 Cores)' },
 
 #
 # Atom based SoC platforms
@@ -155,10 +158,33 @@ my_dict = {
 # Braswell
 0x22B0 : {'name' : 'Braswell','id' : chipset.CHIPSET_ID_BSW , 'code' : 'BSW',  'longname' : 'Braswell SoC' },
 
-# Apollo Lake
-0x5AF0 : {'name' : 'Apollo Lake','id' : CHIPSET_ID_APL , 'code' : 'APL',  'longname' : 'Apollo Lake' },
+# Denverton
+0x1980 : {'name' : 'Denverton','id' : CHIPSET_ID_DNV , 'code' : 'DNV',  'longname' : 'Denverton SoC' },
 
+# Gemini Lake
+0x3180 : {'name' : 'Gemini Lake','id' : CHIPSET_ID_GLK , 'code' : 'GLK',  'longname' : 'Gemini Lake' },
+0x31F0 : {'name' : 'Gemini Lake','id' : CHIPSET_ID_GLK , 'code' : 'GLK',  'longname' : 'Gemini Lake' },
 
 }
 
-chipset.Chipset_Dictionary.update(my_dict)
+PCH_ID_3xx      = 80000 + 10002
+
+PCH_CODE_3xx    = 'PCH_3xx'
+
+custom_pch_dict = {
+
+0xA306 : {'name' : 'Q370',   'id' : PCH_ID_3xx, 'code' : PCH_CODE_3xx, 'longname' : 'Intel Q370 (CNL) PCH'},
+0xA304 : {'name' : 'H370',   'id' : PCH_ID_3xx, 'code' : PCH_CODE_3xx, 'longname' : 'Intel H370 (CNL) PCH'},
+0xA305 : {'name' : 'Z390',   'id' : PCH_ID_3xx, 'code' : PCH_CODE_3xx, 'longname' : 'Intel Z390 (CNL) PCH'},
+0xA308 : {'name' : 'B360',   'id' : PCH_ID_3xx, 'code' : PCH_CODE_3xx, 'longname' : 'Intel B360 (CNL) PCH'},
+0xA303 : {'name' : 'H310',   'id' : PCH_ID_3xx, 'code' : PCH_CODE_3xx, 'longname' : 'Intel H310 (CNL) PCH'},
+0xA30A : {'name' : 'C242',   'id' : PCH_ID_3xx, 'code' : PCH_CODE_3xx, 'longname' : 'Intel C242 (CNL) PCH'},
+0xA309 : {'name' : 'C246',   'id' : PCH_ID_3xx, 'code' : PCH_CODE_3xx, 'longname' : 'Intel C246 (CNL) PCH'},
+0xA30D : {'name' : 'HM370',  'id' : PCH_ID_3xx, 'code' : PCH_CODE_3xx, 'longname' : 'Intel HM370 (CNL) PCH'},
+0xA30C : {'name' : 'QM370',  'id' : PCH_ID_3xx, 'code' : PCH_CODE_3xx, 'longname' : 'Intel QM370 (CNL) PCH'},
+0xA30E : {'name' : 'CM246',  'id' : PCH_ID_3xx, 'code' : PCH_CODE_3xx, 'longname' : 'Intel CM246 (CNL) PCH'},
+
+}
+
+chipset.Chipset_Dictionary.update(custom_proc_dict)
+chipset.pch_dictionary.update(custom_pch_dict)

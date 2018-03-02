@@ -50,7 +50,10 @@ TAGS = [MTAG_HWCONFIG]
 class debug_interface(BaseModule):
 
     def is_supported(self):
-        return (self.cs.is_core() or self.cs.is_server())
+        # Use CPUID Function 1 to determine if the IA32_DEBUG_INTERFACE MSR is supported.
+        # See IA32 SDM CPUID Instruction for details.  (SDBG ECX bit 11)
+        (eax, ebx, ecx, edx) = self.cs.cpu.cpuid(1, 0)
+        return (ecx & (1 << 11)) != 0
 
     ## check_debug
     # checks the CPU debug interface configuration
